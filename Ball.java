@@ -11,7 +11,7 @@ import java.awt.Panel;
  *
  * @author dericksonb
  */
-public class Ball extends PObj 
+public class Ball extends PFigure 
 {
    private int x, y;        
    private int xVel, yVel;  
