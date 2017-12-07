@@ -12,10 +12,11 @@ import java.awt.Panel;
  *
  * @author dericksonb
  */
-public class Missle extends PObj
+public class Missile extends PFigure
 {
-    
-    public Missle(int initX, int initY, int initXVel, int initYVel, Color initColor, int initRadius, Panel p) {
+
+    public Missile( int initX, int initY, int initXVel, int initYVel, Color initColor, int initRadius, Panel p )
+    {
         super(initX, initY, initXVel, initYVel, initColor, initRadius, p);
     }
     
