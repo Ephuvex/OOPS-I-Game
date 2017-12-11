@@ -4,6 +4,7 @@ import src.PFigure;
 
 import java.awt.*;
 
+
 public class Brick extends PFigure
 {
    protected Color colorLight = new Color(255, 140, 140, 255);
@@ -23,10 +24,10 @@ public class Brick extends PFigure
       g.drawRect(x, y, width, height);
 
       g.setColor(colorDark);
-      g.drawRect(x + 2, y + 2, width - 2, height - 2);
+      g.drawRect(x + 1, y + 1, width - 2, height - 2);
 
       g.setColor(colorLight);
-      g.drawRect(x + 4, y + 4, width - 4, height - 4);
+      g.fillRect(x + 2, y + 2, width - 4, height - 4);
    }
 
    /**

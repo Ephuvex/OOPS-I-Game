@@ -1,7 +1,6 @@
 package src.bricks;
 
 import src.PFigure;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class BrickList
 {
@@ -18,13 +17,11 @@ public class BrickList
    public boolean remove( Brick brick )
    {
       for ( int i = 0; i < size; i++ )
-      {
          if ( bricks[i].equals(brick) )
          {
             System.arraycopy(bricks, i + 1, bricks, i, size-- - i);
             return true;
          }
-      }
       return false;
    }
 
@@ -53,5 +50,11 @@ public class BrickList
       }
 
       return null;
+   }
+
+   public void draw()
+   {
+      for ( int i = 0; i < size; i++ )
+         bricks[i].draw();
    }
 }

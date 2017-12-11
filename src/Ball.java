@@ -16,12 +16,14 @@ public class Ball extends PFigure
    private int x, y;        
    private int xVel, yVel;  
    private int radius;   
-   private Panel panel;   
-   private Color color; 
+   private Panel panel;
+   private Color color;
+
+   // TODO: 12/11/17 [AndrewKaiser] Class needs a 'ghost' constructor
     
     public Ball(int initX, int initY, int initXVel, int initYVel, Color initColor, int initRadius, Panel p) 
     {
-        super(initX, initY, initXVel, initYVel, initColor, initRadius, p);
+       super(initX, initY, initXVel, initYVel, initRadius, p);
         
     }
     
@@ -45,5 +47,11 @@ public class Ball extends PFigure
     
       x = x + xVel;
       y = y + yVel;
+   }
+
+   @Override
+   public void draw()
+   {
+
    }
 }

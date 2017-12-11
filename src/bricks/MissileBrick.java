@@ -24,7 +24,7 @@ public class MissileBrick extends Brick
    @Override
    public PFigure didGetDestroyed()
    {
-      // TODO: 12/7/17 Increment missile counter
+      Missile.counter++;
       return null;
    }
 }

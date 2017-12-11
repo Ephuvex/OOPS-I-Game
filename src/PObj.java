@@ -32,7 +32,7 @@ public abstract class PObj {
       erase_draw = false;
    }
 
-   // Erase the src.bricks.Ball
+   // Erase the ball
    public void hide()
    {
       erase_draw = true;

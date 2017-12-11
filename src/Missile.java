@@ -5,19 +5,24 @@ package src;/*
  */
 
 
-import java.awt.Color;
-import java.awt.Panel;
+import java.awt.*;
 
 /**
- *
- * @author dericksonb
- */
+ @author dericksonb */
 public class Missile extends PFigure
 {
+   public static int counter = 0;
 
-    public Missile( int initX, int initY, int initXVel, int initYVel, Color initColor, int initRadius, Panel p )
-    {
-        super(initX, initY, initXVel, initYVel, initColor, initRadius, p);
-    }
-    
+   // TODO: 12/11/17 [AndrewKaiser] Class needs a 'ghost' constructor
+
+   public Missile( int initX, int initY, int initXVel, int initYVel, Color initColor, int initRadius, Panel p )
+   {
+      super(initX, initY, initXVel, initYVel, initRadius, p);
+   }
+
+   @Override
+   public void draw()
+   {
+
+   }
 }
