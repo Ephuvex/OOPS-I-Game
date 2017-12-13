@@ -5,6 +5,7 @@ package src;/*
  */
 
 import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Panel;
 
 /**
@@ -52,6 +53,14 @@ public class Ball extends PFigure
    @Override
    public void draw()
    {
-
+       Graphics g = panel.getGraphics();
+       g.fillOval(x, y, 10, 10);
+       
+   }
+   
+   public boolean inBounds()
+   {
+       return x - radius > 0 && x + radius < panel.getSize().width  && 
+               y - radius > 0 && y + radius < panel.getSize().height;
    }
 }

@@ -7,8 +7,8 @@ import java.awt.*;
 
 public class Brick extends PFigure
 {
-   protected Color colorLight = new Color(255, 140, 140, 255);
-   protected Color colorDark = new Color(255, 0, 0, 255);
+   protected Color colorLight = new Color(255, 255, 255, 255);
+   protected Color colorDark = new Color(0, 0, 0, 255);
 
    public Brick( int startX, int startY, int _width, int _height, int pr, Panel p )
    {
