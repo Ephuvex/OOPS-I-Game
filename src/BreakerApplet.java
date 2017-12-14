@@ -12,11 +12,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 
 /**
- * @author Quinn
+ * @author Quinn, Andrew
  */
-public class BreakerApplet extends java.applet.Applet
-        implements java.awt.event.ActionListener {
-
+public class BreakerApplet extends java.applet.Applet implements java.awt.event.ActionListener {
     private static final int PAUSE_TIME = 20;
     private static final int HEIGHT = 800;
     private static final int WIDTH = 500;
@@ -59,6 +57,7 @@ public class BreakerApplet extends java.applet.Applet
         jPanel1.paint(g);
         brickList.draw();
         ball.draw();
+        paddle.draw();
     }
 
     /**
@@ -100,8 +99,8 @@ public class BreakerApplet extends java.applet.Applet
             }
         }
 
-        ball = new Ball(200, 200, 10, 10, Color.RED, 10, jPanel1);
-        paddle = new Paddle(50, 40, 50, 20, 0, jPanel1);
+        ball = new Ball((WIDTH - 10) / 2, HEIGHT - 75, 10, 10, Color.RED, 10, jPanel1);
+        paddle = new Paddle((WIDTH - 100) / 2, HEIGHT - 50, 100, 20, 0, jPanel1);
     }// </editor-fold>
 
     private void formKeyPressed(java.awt.event.KeyEvent evt) {
