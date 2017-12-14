@@ -25,7 +25,6 @@ public class Ball extends PFigure
     public Ball(int initX, int initY, int initXVel, int initYVel, Color initColor, int initRadius, Panel p) 
     {
        super(initX, initY, initXVel, initYVel, initRadius, p);
-        
     }
     
     @Override
@@ -53,6 +52,8 @@ public class Ball extends PFigure
    @Override
    public void draw()
    {
+       if (panel == null)
+           return;
        Graphics g = panel.getGraphics();
        g.fillOval(x, y, 10, 10);
        
