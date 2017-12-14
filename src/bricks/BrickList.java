@@ -40,8 +40,9 @@ public class BrickList
     */
    public PFigure collisionCheck( PFigure pFigure )
    {
-      for ( Brick brick : bricks )
+      for (int i = 0; i < size; i++)
       {
+         Brick brick = bricks[i];
          if ( brick.collidedWith(pFigure) )
          {
             remove(brick);

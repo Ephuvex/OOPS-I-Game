@@ -41,10 +41,9 @@ public class BreakerApplet extends java.applet.Applet
                 }
             });
         } catch (Exception ex) {
-            //ex.printStackTrace();
+            ex.printStackTrace();
         }
         setLayout(new BorderLayout());
-
     }
 
     private boolean gameIsOver() {
@@ -100,7 +99,7 @@ public class BreakerApplet extends java.applet.Applet
             }
         }
 
-        ball = new Ball(200, 200, 0, 0, Color.RED, 10, jPanel1);
+        ball = new Ball(200, 200, 10, 10, Color.RED, 10, jPanel1);
     }// </editor-fold>
 
     private void formKeyPressed(java.awt.event.KeyEvent evt) {
@@ -120,7 +119,8 @@ public class BreakerApplet extends java.applet.Applet
 
     @Override
     public void actionPerformed(ActionEvent ae) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ball.move();
+        brickList.collisionCheck(ball);
     }
     // End of variables declaration
 }

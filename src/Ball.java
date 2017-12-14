@@ -15,9 +15,8 @@ import java.awt.Panel;
 public class Ball extends PFigure
 {
    private int x, y;        
-   private int xVel, yVel;  
-   private int radius;   
-   private Panel panel;
+   private int xVel, yVel;
+    private int radius;
    private Color color;
 
    // TODO: 12/11/17 [AndrewKaiser] Class needs a 'ghost' constructor
@@ -52,8 +51,6 @@ public class Ball extends PFigure
    @Override
    public void draw()
    {
-       if (panel == null)
-           return;
        Graphics g = panel.getGraphics();
        g.fillOval(x, y, 10, 10);
        
