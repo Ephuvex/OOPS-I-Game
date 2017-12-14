@@ -24,6 +24,7 @@ public class BreakerApplet extends java.applet.Applet
     private BrickList brickList;
     private PFigureList figList;
     private Ball ball;
+    private Paddle paddle = new Paddle(50,40, 50, 20, 0, p);
     // Variables declaration - do not modify
     private java.awt.Panel jPanel1;
 
@@ -108,7 +109,13 @@ public class BreakerApplet extends java.applet.Applet
             case 83:
                 ball.draw();
                 figList.add(ball);
+                break;           
+            case 39:
+                paddle.move(15, 0);
                 break;
+            case 37:
+                paddle.move(-15,0);
+            default:
             default:
                 break;
         }// TODO add your handling code here:
