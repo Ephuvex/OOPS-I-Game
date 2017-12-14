@@ -10,15 +10,17 @@ import src.bricks.BrickList;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 /**
  * @author Quinn, Andrew
  */
-public class BreakerApplet extends java.applet.Applet implements java.awt.event.ActionListener {
+public class BreakerApplet extends java.applet.Applet implements java.awt.event.ActionListener, KeyListener {
     private static final int PAUSE_TIME = 20;
     private static final int HEIGHT = 800;
     private static final int WIDTH = 500;
-    private javax.swing.Timer moveTimer = new javax.swing.Timer(34, this);
+    private javax.swing.Timer moveTimer = new javax.swing.Timer(500, this);
     private BrickList brickList;
     private PFigureList figList;
     private Ball ball;
@@ -42,7 +44,6 @@ public class BreakerApplet extends java.applet.Applet implements java.awt.event.
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        setLayout(new BorderLayout());
     }
 
     private boolean gameIsOver() {
@@ -67,22 +68,11 @@ public class BreakerApplet extends java.applet.Applet implements java.awt.event.
      */
     // <editor-fold defaultstate="collapsed" desc="Generated Code">
     private void initComponents() {
-
-        jPanel1 = new Panel();
-
-        setStub(null);
-        addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                formMousePressed(evt);
-            }
-        });
-        addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                formKeyPressed(evt);
-            }
-        });
         setLayout(null);
 
+        addKeyListener(this);
+
+        jPanel1 = new Panel();
         jPanel1.setBackground(new java.awt.Color(100, 100, 100));
         jPanel1.setMaximumSize(new java.awt.Dimension(WIDTH, HEIGHT));
         jPanel1.setMinimumSize(new java.awt.Dimension(WIDTH, HEIGHT));
@@ -103,31 +93,36 @@ public class BreakerApplet extends java.applet.Applet implements java.awt.event.
         paddle = new Paddle((WIDTH - 100) / 2, HEIGHT - 50, 100, 20, 0, jPanel1);
     }// </editor-fold>
 
-    private void formKeyPressed(java.awt.event.KeyEvent evt) {
-        switch (evt.getKeyCode()) {
-            case 83:
-                ball.draw();
-                figList.add(ball);
-                break;           
-            case 39:
-                paddle.move(15, 0);
-                break;
-            case 37:
-                paddle.move(-15,0);
-                break;
-            default:
-                break;
-        }// TODO add your handling code here:
-    }
-
-    private void formMousePressed(java.awt.event.MouseEvent evt) {
-        // TODO add your handling code here:
-    }
-
     @Override
     public void actionPerformed(ActionEvent ae) {
         ball.move();
         brickList.collisionCheck(ball);
     }
-    // End of variables declaration
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        switch (e.getKeyCode()) {
+            case 83:
+                ball.draw();
+                figList.add(ball);
+                break;
+            case 39:
+                paddle.move(15, 0);
+                break;
+            case 37:
+                paddle.move(-15, 0);
+                break;
+            default:
+                break;
+        }
+        // End of variables declaration
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+    }
 }
