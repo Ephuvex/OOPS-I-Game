@@ -24,7 +24,7 @@ public class BreakerApplet extends java.applet.Applet
     private BrickList brickList;
     private PFigureList figList;
     private Ball ball;
-    private Paddle paddle = new Paddle(50,40, 50, 20, 0, p);
+    private Paddle paddle;
     // Variables declaration - do not modify
     private java.awt.Panel jPanel1;
 
@@ -101,6 +101,7 @@ public class BreakerApplet extends java.applet.Applet
         }
 
         ball = new Ball(200, 200, 10, 10, Color.RED, 10, jPanel1);
+        paddle = new Paddle(50, 40, 50, 20, 0, jPanel1);
     }// </editor-fold>
 
     private void formKeyPressed(java.awt.event.KeyEvent evt) {
@@ -114,7 +115,7 @@ public class BreakerApplet extends java.applet.Applet
                 break;
             case 37:
                 paddle.move(-15,0);
-            default:
+                break;
             default:
                 break;
         }// TODO add your handling code here:
