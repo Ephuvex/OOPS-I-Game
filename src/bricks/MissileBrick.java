@@ -12,13 +12,8 @@ public class MissileBrick extends Brick
    public MissileBrick( int startX, int startY, int _width, int _height, int pr, Panel p )
    {
       super(startX, startY, _width, _height, pr, p);
-   }
-
-   @Override
-   public void draw()
-   {
-      super.draw();
-      ghostMissile.draw();
+      colorLight = new Color(0, 255, 255);
+      colorDark = new Color(0, 150, 150);
    }
 
    @Override

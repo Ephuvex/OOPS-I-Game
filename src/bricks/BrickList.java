@@ -1,5 +1,7 @@
 package src.bricks;
 
+import src.Ball;
+import src.Missile;
 import src.PFigure;
 
 public class BrickList
@@ -46,6 +48,25 @@ public class BrickList
          if ( brick.collidedWith(pFigure) )
          {
             remove(brick);
+            brick.hide();
+            
+            if (pFigure instanceof Ball)
+            {
+                Ball ball = (Ball) pFigure;
+                if(brick.bounceWasX(ball))
+                    ball.bounceX();
+                
+                if(brick.bounceWasY(ball))
+                    ball.bounceY();
+            }
+            
+            if (pFigure instanceof Missile)
+            {
+                Missile missile = (Missile) pFigure;
+                missile.kys();
+            }
+                
+            //pFigure.();
             return brick.didGetDestroyed();
          }
       }

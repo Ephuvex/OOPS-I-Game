@@ -7,23 +7,16 @@ import java.awt.*;
 
 public class DuplicateBrick extends Brick
 {
-   private Ball ghostBall;
-
    public DuplicateBrick( int startX, int startY, int _width, int _height, int pr, Panel p )
    {
       super(startX, startY, _width, _height, pr, p);
-   }
-
-   @Override
-   public void draw()
-   {
-      super.draw();
-      ghostBall.draw();
+      colorLight = new Color(255, 0, 255);
+      colorDark = new Color(150, 0, 150);
    }
 
    @Override
    public PFigure didGetDestroyed()
    {
-      return new Ball(x + 40, x + 20, 20, -20, colorDark, 10, panel);
+      return new Ball(x + 25, y + 10, -2, 2, colorDark, 10, panel);
    }
 }

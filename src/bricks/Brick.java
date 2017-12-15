@@ -3,6 +3,7 @@ package src.bricks;
 import src.PFigure;
 
 import java.awt.*;
+import src.Ball;
 
 
 public class Brick extends PFigure
@@ -21,13 +22,13 @@ public class Brick extends PFigure
       Graphics g = panel.getGraphics();
 
       g.setColor(colorLight);
-      g.drawRect(x, y, width, height);
+      g.drawRect(x, y, width-1, height-1);
 
       g.setColor(colorDark);
-      g.drawRect(x + 1, y + 1, width - 2, height - 2);
+      g.drawRect(x + 1, y + 1, width - 3, height - 3);
 
       g.setColor(colorLight);
-      g.fillRect(x + 2, y + 2, width - 4, height - 4);
+      g.fillRect(x + 2, y + 2, width - 5, height - 5);
    }
 
    /**
@@ -40,5 +41,21 @@ public class Brick extends PFigure
    public PFigure didGetDestroyed()
    {
       return null;
+   }
+   
+   public boolean bounceWasX(Ball ball)
+   {
+       Rail topRail = new Rail(x + 2, y, width - 4, 1);
+       Rail bottomRail = new Rail(x + 2, y + height - 1, width - 4, 1);
+       
+       return ball.collidedWith(topRail) || ball.collidedWith(bottomRail);
+   }
+   
+   public boolean bounceWasY(Ball ball)
+   {
+       Rail leftRail = new Rail(x, y + 2, 1, height - 4);
+       Rail rightRail = new Rail(x + width - 1, y + 2, 1, height - 4);
+       
+       return ball.collidedWith(leftRail) || ball.collidedWith(rightRail);
    }
 }
