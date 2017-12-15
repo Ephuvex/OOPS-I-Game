@@ -66,7 +66,7 @@ public abstract class PFigure implements Comparable
    {
       Graphics g = panel.getGraphics();
       Color oldColor = g.getColor();
-      g.setColor(panel.getBackground() );
+      g.setColor(panel.getBackground());
       g.fillRect(x, y, width, height);
       g.setColor(oldColor);
    }

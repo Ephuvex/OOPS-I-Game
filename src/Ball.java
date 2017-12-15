@@ -10,17 +10,26 @@ import java.awt.*;
  * @author dericksonb
  */
 public class Ball extends PFigure {
-    private int x, y;
     private int xVel, yVel;
     private int radius;
     private Color color;
 
-    // TODO: 12/11/17 [AndrewKaiser] Class needs a 'ghost' constructor
-
     public Ball(int initX, int initY, int initXVel, int initYVel, Color initColor, int initRadius, Panel p) {
-        super(initX, initY, initXVel, initYVel, initRadius, p);
+        super(initX, initY, initRadius, initRadius, 1, p);
+        xVel = initXVel;
+        yVel = initYVel;
     }
 
+    public void bounceX()
+    {            
+        yVel = -yVel;
+    }
+    
+       public void bounceY()
+    {
+        xVel = -xVel;
+    }
+    
     @Override
     public void move() {
         if (xVel < 0 && x - radius <= 0 ||
