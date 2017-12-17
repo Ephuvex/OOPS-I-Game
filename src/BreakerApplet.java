@@ -5,27 +5,30 @@
  */
 package src;
 
-import src.bricks.Brick;
-import src.bricks.BrickList;
+import src.colliders.railcolliders.bricks.Brick;
+import src.colliders.railcolliders.bricks.BrickList;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.Random;
-import src.bricks.DuplicateBrick;
-import src.bricks.MissileBrick;
+
+import src.colliders.railcolliders.bricks.DuplicateBrick;
+import src.colliders.railcolliders.bricks.MissileBrick;
+import src.colliders.nonrailcolliders.Ball;
+import src.colliders.nonrailcolliders.Missile;
+import src.colliders.nonrailcolliders.NonRailCollider;
+import src.colliders.nonrailcolliders.NonRailColliderList;
+import src.colliders.railcolliders.Paddle;
 
 /**
  * @author Quinn, Andrew
  */
 public class BreakerApplet extends java.applet.Applet implements java.awt.event.ActionListener {
-
-    private static final int PAUSE_TIME = 20;
     private static final int HEIGHT = 700;
     private static final int WIDTH = 500;
-    private javax.swing.Timer moveTimer = new javax.swing.Timer(5, this);
+    private javax.swing.Timer moveTimer = new javax.swing.Timer(16, this);
     private BrickList brickList;
-    private PFigureList figList;
-    private Ball ball;
+    private NonRailColliderList nonRailColliderList;
     private Paddle paddle;
 
     @Override
@@ -64,7 +67,7 @@ public class BreakerApplet extends java.applet.Applet implements java.awt.event.
     private void setStage() {
         panel.setSize(WIDTH, HEIGHT);
         brickList = new BrickList();
-        figList = new PFigureList();
+        nonRailColliderList = new NonRailColliderList();
 
         Random rand = new Random();
         for (int i = 0; i <= 10; i++) {
@@ -73,19 +76,19 @@ public class BreakerApplet extends java.applet.Applet implements java.awt.event.
                 int num = rand.nextInt();
 
                 if (num % 15 == 0) {
-                    brick = new MissileBrick(i * 50, j * 40, 50, 20, 0, panel);
+                    brick = new MissileBrick(i * 50, j * 40, 50, 20, panel);
                 } else if (num % 15 == 5) {
-                    brick = new DuplicateBrick(i * 50, j * 40, 50, 20, 0, panel);
+                    brick = new DuplicateBrick(i * 50, j * 40, 50, 20, panel);
                 } else {
-                    brick = new Brick(i * 50, j * 40, 50, 20, 0, panel);
+                    brick = new Brick(i * 50, j * 40, 50, 20, panel);
                 }
 
                 brickList.add(brick);
             }
         }
 
-        figList.add(new Ball((WIDTH - 10) / 2, HEIGHT - 75, 2, -2, Color.RED, 10, panel));
-        paddle = new Paddle((WIDTH - 100) / 2, HEIGHT - 50, 100, 20, 0, panel);
+        nonRailColliderList.add(new Ball((WIDTH - 10) / 2, HEIGHT - 75, 2, -2, panel));
+        paddle = new Paddle((WIDTH - 100) / 2, HEIGHT - 50, 100, 20, panel);
     }
 
     @Override
@@ -94,24 +97,24 @@ public class BreakerApplet extends java.applet.Applet implements java.awt.event.
         paddle.move();
         paddle.draw();
 
-        for (int i = 0; i < figList.getSize(); i++) {
-            PFigure pFigure = figList.get(i);
+        for (int i = 0; i < nonRailColliderList.getSize(); i++) {
+            NonRailCollider nonRailCollider = nonRailColliderList.get(i);
 
-            pFigure.hide();
-            pFigure.move();
-            pFigure.draw();
+            nonRailCollider.hide();
+            nonRailCollider.move();
+            nonRailCollider.draw();
 
-            figList.add(brickList.collisionCheck(pFigure));
-            paddle.collisionCheck(pFigure);
+            nonRailColliderList.add(brickList.collisionCheck(nonRailCollider));
+            paddle.collisionCheck(nonRailCollider);
 
-            if (pFigure instanceof Missile) {
-                if (((Missile) pFigure).getShouldDie()) {
-                    figList.delete(pFigure);
-                    pFigure.hide();
-                }
+            if (nonRailCollider.isOutOfBounds()) {
+                nonRailCollider.tellToDie();
             }
 
-            figList.crop();
+            if (nonRailCollider.getShouldDie()) {
+                nonRailCollider.kill();
+                nonRailColliderList.delete(nonRailCollider);
+            }
         }
 
         brickList.draw();
@@ -190,12 +193,13 @@ public class BreakerApplet extends java.applet.Applet implements java.awt.event.
                 paddle.draw();
                 break;
             case 32:
-                if (paddle.getFiringmissile() && !figList.hasMissile() && Missile.counter > 0) {
-                    figList.add(paddle.shootMissile(Missile.angle));
+                if (paddle.getFiringmissile() && !Missile.isMissileInPlay && Missile.counter > 0) {
+                    nonRailColliderList.add(paddle.shootMissile(Missile.angle));
+                    Missile.isMissileInPlay = true;
                     Missile.counter--;
                 }
 
-                paddle.toggleFIREMISSILE();
+                paddle.toggleFireMissile();
                 break;
             default:
                 break;

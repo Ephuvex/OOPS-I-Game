@@ -52,25 +52,4 @@ public class PFigureList {
             list[numFigs++] = fig;
         }
     }
-
-    public boolean hasMissile() {
-        for (int i = 0; i < numFigs; i++) {
-            if (list[i] instanceof Missile) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public void crop() {
-        for (int i = 0; i < numFigs; i++) {
-            if (list[i] instanceof Missile) {
-                Missile missile = (Missile) list[i];
-                if (missile.isOutOfBounds()) {
-                    missile.hide();
-                    delete(missile);
-                }
-            }
-        }
-    }
 }

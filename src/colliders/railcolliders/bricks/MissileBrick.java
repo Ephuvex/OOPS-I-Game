@@ -1,17 +1,15 @@
-package src.bricks;
+package src.colliders.railcolliders.bricks;
 
-import src.Missile;
+import src.colliders.nonrailcolliders.Missile;
 import src.PFigure;
 
 import java.awt.*;
 
 public class MissileBrick extends Brick
 {
-   private Missile ghostMissile;
-
-   public MissileBrick( int startX, int startY, int _width, int _height, int pr, Panel p )
+   public MissileBrick(int startX, int startY, int _width, int _height, Panel p)
    {
-      super(startX, startY, _width, _height, pr, p);
+      super(startX, startY, _width, _height, p);
       colorLight = new Color(0, 255, 255);
       colorDark = new Color(0, 150, 150);
    }
