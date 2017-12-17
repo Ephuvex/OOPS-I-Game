@@ -6,44 +6,49 @@
 package src;
 
 /**
- *
- * @author Quinn
- */
-public class PFigureList {
+ @author Quinn */
+public class PFigureList
+{
 
-    public final int MAX_SIZE = 100;
-    private PFigure list[] = new PFigure[MAX_SIZE];
-    private int numFigs = 0;
+   private final int MAX_SIZE = 100;
+   private PFigure list[] = new PFigure[MAX_SIZE];
+   private int numFigs = 0;
 
-    public int getSize() {
-        return numFigs;
-    }
+   public int getSize()
+   {
+      return numFigs;
+   }
 
-    public PFigure get(int i) {
-        return list[i];
-    }
+   public PFigure get( int i )
+   {
+      return list[i];
+   }
 
-    private int find(PFigure fig) {
-        for (int i = numFigs - 1; i > -1; i--) {
-            if (list[i].equals(fig)) {
-                return i;
-            }
-        }
-        return -1;
-    }
+   private int find( PFigure fig )
+   {
+      for ( int i = numFigs - 1; i > -1; i-- )
+      {
+         if ( list[i].equals(fig) )
+         {
+            return i;
+         }
+      }
+      return -1;
+   }
 
-    public boolean delete(PFigure fig) {
-        int index = find(fig);
-        if (index > -1) {
-            for (int i = index; i < numFigs - 2; i++) {
-                list[i] = list[i + 1];
-            }
-            numFigs--;
-            return true;
-        }
-        return false;
-    }
+   public boolean delete( PFigure fig )
+   {
+      int index = find(fig);
+      if ( index > -1 )
+      {
+         System.arraycopy(list, index + 1, list, index, numFigs - 2 - index);
+         numFigs--;
+         return true;
+      }
+      return false;
+   }
 
+<<<<<<< HEAD:src/src/PFigureList.java
     public void add(PFigure fig) {
         if (fig == null) {
             return;
@@ -58,4 +63,17 @@ public class PFigureList {
         for (int i = 0; i < numFigs; i ++)
             list[i].hide();
     }
+=======
+   public void add( PFigure fig )
+   {
+      if ( fig == null )
+      {
+         return;
+      }
+      if ( numFigs < this.MAX_SIZE )
+      {
+         list[numFigs++] = fig;
+      }
+   }
+>>>>>>> 7ad78e27493dc5215b8974a55ebe44dec3354566:src/PFigureList.java
 }

@@ -1,21 +1,16 @@
 package src; /**
-You need to properly comment and fully understand this file!
-
-You are only allowed to change things if it is NECESSARY to do your project,
-in which case you must comment what you changed and why.
-Expect to lose significant points otherwise!
-
-You don't have to finish any code in this file - just comment it well!
-Be sure to remove and/or rewrite the original comments!
-
-Also, one method and the constructor don't have comments, and the
-original comments are not in the correct style. You need to fix all
-of them according to our style rules and put your names as authors.
-
-@Author: Joe Clifton
-         Qi Yang (Modified class comment)
-@Author:          
-*/
+ You need to properly comment and fully understand this file!
+ <p>
+ You are only allowed to change things if it is NECESSARY to do your project,
+ in which case you must comment what you changed and why.
+ Expect to lose significant points otherwise!
+ <p>
+ You don't have to finish any code in this file - just comment it well!
+ Be sure to remove and/or rewrite the original comments!
+ <p>
+ Also, one method and the constructor don't have comments, and the
+ original comments are not in the correct style. You need to fix all
+ of them according to our style rules and put your names as authors. */
 
 import java.awt.*;
 
@@ -26,42 +21,42 @@ public abstract class PFigure implements Comparable
    protected int priority;       // Can use to determine "winner"
    protected Panel panel;        // Panel the figure lives on
 
-   public PFigure ( int startX, int startY, int _width, int _height, 
-                    int pr, Panel p )
+   public PFigure( int startX, int startY, int _width, int _height,
+                   int pr, Panel p )
    {
-       x = startX;
-       y = startY;
-       width = _width;
-       height = _height;
-       priority = pr;
-       panel = p;
+      x = startX;
+      y = startY;
+      width = _width;
+      height = _height;
+      priority = pr;
+      panel = p;
    }
-   
+
    // Can use this in "battles", which figures is "greater"
-   public int compareTo(Object o)
+   public int compareTo( Object o )
    {
-      if( o instanceof PFigure )
-         return priority - ((PFigure)o).priority;
+      if ( o instanceof PFigure )
+         return priority - ((PFigure) o).priority;
       return Integer.MAX_VALUE;
    }
-      
+
    // Has "this" figure collided with p?
-   public boolean collidedWith ( PFigure p )
+   public boolean collidedWith( PFigure p )
    {
-      if (  p == null )
+      if ( p == null )
          return false;
 
-      return ( x + width ) >= p.x && ( p.x + p.width ) >= x &&
-             ( y + height ) >= p.y && ( p.y + p.height ) >= y;
+      return (x + width) >= p.x && (p.x + p.width) >= x &&
+              (y + height) >= p.y && (p.y + p.height) >= y;
    }
-   
+
    // Can be used for moving by keyboard or mouse
-   public void move ( int deltaX, int deltaY )
+   public void move( int deltaX, int deltaY )
    {
       x = x + deltaX;
       y = y + deltaY;
    }
-   
+
    public void hide()
    {
       Graphics g = panel.getGraphics();
@@ -70,7 +65,7 @@ public abstract class PFigure implements Comparable
       g.fillRect(x, y, width, height);
       g.setColor(oldColor);
    }
-   
+
    // Can be automatic move, for example, called based on timer
    public void move()
    {
@@ -82,5 +77,5 @@ public abstract class PFigure implements Comparable
    // The first line should be:
    //    Graphics g = panel.getGraphics();
    abstract public void draw();
-   
+
 }
