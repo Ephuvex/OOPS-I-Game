@@ -52,4 +52,10 @@ public class PFigureList {
             list[numFigs++] = fig;
         }
     }
+    
+    public void hide()
+    {
+        for (int i = 0; i < numFigs; i ++)
+            list[i].hide();
+    }
 }

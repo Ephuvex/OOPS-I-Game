@@ -19,11 +19,14 @@ import src.colliders.nonrailcolliders.Missile;
 import src.colliders.nonrailcolliders.NonRailCollider;
 import src.colliders.nonrailcolliders.NonRailColliderList;
 import src.colliders.railcolliders.Paddle;
+import src.colliders.railcolliders.Rail;
 
 /**
  * @author Quinn, Andrew
  */
-public class BreakerApplet extends java.applet.Applet implements java.awt.event.ActionListener {
+public class BreakerApplet extends java.applet.Applet implements java.awt.event.ActionListener
+{
+
     private static final int HEIGHT = 700;
     private static final int WIDTH = 500;
     private javax.swing.Timer moveTimer = new javax.swing.Timer(16, this);
@@ -32,101 +35,149 @@ public class BreakerApplet extends java.applet.Applet implements java.awt.event.
     private Paddle paddle;
 
     @Override
-    public void init() {
+    public void init()
+    {
         Window window = (Window) this.getParent().getParent();
-        window.setSize(WIDTH, HEIGHT + 100);
+        window.setSize(WIDTH + 16, HEIGHT + 100);
         window.setLocationRelativeTo(null);
 
-        try {
-            java.awt.EventQueue.invokeAndWait(new Runnable() {
-                public void run() {
+        try
+        {
+            java.awt.EventQueue.invokeAndWait(new Runnable()
+            {
+                public void run()
+                {
                     initComponents();
                     setStage();
                     moveTimer.start();
                     panel.requestFocus();
                 }
             });
-        } catch (Exception ex) {
+        } catch (Exception ex)
+        {
             ex.printStackTrace();
         }
         setLayout(new BorderLayout());
     }
 
-    private boolean gameIsOver() {
-        //Out of bounds?
-
-        return false;
-    }
-
     @Override
-    public void paint(Graphics g) {
+    public void paint(Graphics g)
+    {
         super.paint(g);
         panel.paint(g);
     }
 
-    private void setStage() {
+    private void setStage()
+    {
         panel.setSize(WIDTH, HEIGHT);
         brickList = new BrickList();
         nonRailColliderList = new NonRailColliderList();
-
         Random rand = new Random();
-        for (int i = 0; i <= 10; i++) {
-            for (int j = 1; j <= 10; j++) {
+        for (int i = 0; i <= 10; i++)
+        {
+            for (int j = 1; j <= 10; j++)
+            {
                 Brick brick;
                 int num = rand.nextInt();
-
-                if (num % 15 == 0) {
-                    brick = new MissileBrick(i * 50, j * 40, 50, 20, panel);
-                } else if (num % 15 == 5) {
-                    brick = new DuplicateBrick(i * 50, j * 40, 50, 20, panel);
-                } else {
-                    brick = new Brick(i * 50, j * 40, 50, 20, panel);
+                switch (num % 15)
+                {
+                    case 0:
+                        brick = new MissileBrick(i * 50, j * 40, 50, 20, panel);
+                        break;
+                    case 5:
+                        brick = new DuplicateBrick(i * 50, j * 40, 50, 20, panel);
+                        break;
+                    default:
+                        brick = new Brick(i * 50, j * 40, 50, 20, panel);
+                        break;
                 }
-
                 brickList.add(brick);
             }
         }
-
         nonRailColliderList.add(new Ball((WIDTH - 10) / 2, HEIGHT - 75, 2, -2, panel));
         paddle = new Paddle((WIDTH - 100) / 2, HEIGHT - 50, 100, 20, panel);
     }
 
     @Override
-    public void actionPerformed(ActionEvent ae) {
+    public void actionPerformed(ActionEvent ae)
+    {
         paddle.hide();
         paddle.move();
         paddle.draw();
-
-        for (int i = 0; i < nonRailColliderList.getSize(); i++) {
+        gameLost();
+        for (int i = 0; i < nonRailColliderList.getSize(); i++)
+        {
             NonRailCollider nonRailCollider = nonRailColliderList.get(i);
-
             nonRailCollider.hide();
             nonRailCollider.move();
             nonRailCollider.draw();
-
             nonRailColliderList.add(brickList.collisionCheck(nonRailCollider));
             paddle.collisionCheck(nonRailCollider);
-
-            if (nonRailCollider.isOutOfBounds()) {
+            if (nonRailCollider.isOutOfBounds())
                 nonRailCollider.tellToDie();
-            }
-
-            if (nonRailCollider.getShouldDie()) {
+            if (nonRailCollider.getShouldDie())
+            {
                 nonRailCollider.kill();
                 nonRailColliderList.delete(nonRailCollider);
             }
         }
-
         brickList.draw();
-
         Graphics g = panel.getGraphics();
-
         g.setColor(panel.getBackground());
         g.fillRect(0, 0, 40, 20);
-
         g.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 20));
         g.setColor(new Color(0, 0, 0));
         g.drawString(String.valueOf(Missile.counter), 10, 20);
+    }
+
+    private void gameLost()
+    {
+        for (int i = 0; i < nonRailColliderList.getSize(); i++)
+        {
+            PFigure pFigure = nonRailColliderList.get(i);
+            if (new Rail(0, 700, 500, 1).collidedWith(pFigure))
+            {
+                if (nonRailColliderList.getSize() > 1)
+                {
+                    pFigure.hide();
+                    nonRailColliderList.delete(pFigure);
+                    return;
+                }
+                PopUp.infoBox("Git Gud!", "Game Over");
+                nonRailColliderList.hide();
+                paddle.hide();
+                brickList = new BrickList();
+                nonRailColliderList = new NonRailColliderList();
+                Random rand = new Random();
+                for (int k = 0; k <= 10; k++)
+                {
+                    for (int j = 1; j <= 10; j++)
+                    {
+                        Brick brick;
+                        int num = rand.nextInt();
+                        switch (num % 15)
+                        {
+                            case 0:
+                                brick = new MissileBrick(k * 50, j * 40, 50, 20, panel);
+                                break;
+                            case 5:
+                                brick = new DuplicateBrick(k * 50, j * 40, 50, 20, panel);
+                                break;
+                            default:
+                                brick = new Brick(k * 50, j * 40, 50, 20, panel);
+                                break;
+                        }
+                        brickList.add(brick);
+                    }
+                }
+                Missile.counter = 10;
+                nonRailColliderList.add(new Ball((WIDTH - 10) / 2, HEIGHT - 75,
+                        2, -2, panel));
+                paddle = new Paddle((WIDTH - 100) / 2, HEIGHT - 50, 100, 20,
+                        panel);
+                paddle.draw();
+            }
+        }
     }
 
     /**
@@ -135,7 +186,8 @@ public class BreakerApplet extends java.applet.Applet implements java.awt.event.
      * always regenerated by the Form Editor.
      */
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents()
+    {
 
         panel = new java.awt.Panel();
 
@@ -143,11 +195,14 @@ public class BreakerApplet extends java.applet.Applet implements java.awt.event.
 
         panel.setBackground(new java.awt.Color(150, 150, 150));
         panel.setPreferredSize(new java.awt.Dimension(800, 500));
-        panel.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
+        panel.addKeyListener(new java.awt.event.KeyAdapter()
+        {
+            public void keyPressed(java.awt.event.KeyEvent evt)
+            {
                 panelKeyPressed(evt);
             }
-            public void keyReleased(java.awt.event.KeyEvent evt) {
+            public void keyReleased(java.awt.event.KeyEvent evt)
+            {
                 panelKeyReleased(evt);
             }
         });
@@ -157,15 +212,14 @@ public class BreakerApplet extends java.applet.Applet implements java.awt.event.
 
     private void panelKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_panelKeyPressed
         // TODO add your handling code here:
-        switch (evt.getKeyCode()) {
+        switch (evt.getKeyCode())
+        {
             case 38:
                 moveTimer.setDelay(moveTimer.getDelay() - 1);
                 break;
-
             case 40:
                 moveTimer.setDelay(moveTimer.getDelay() + 1);
                 break;
-                
             case 37:
                 paddle.setTravellingLeft(true);
                 break;
@@ -175,39 +229,33 @@ public class BreakerApplet extends java.applet.Applet implements java.awt.event.
             case 67:
                 paddle.hide();
                 Missile.angle -= 10;
-
-                if (Missile.angle < 45) {
+                if (Missile.angle < 45)
                     Missile.angle = 45;
-                }
                 paddle.draw();
                 break;
             case 86:
                 paddle.hide();
-
                 Missile.angle += 10;
-
-                if (Missile.angle > 135) {
+                if (Missile.angle > 135)
                     Missile.angle = 135;
-                }
-
                 paddle.draw();
                 break;
             case 32:
-                if (paddle.getFiringmissile() && !Missile.isMissileInPlay && Missile.counter > 0) {
+                if (paddle.getFiringmissile() && !Missile.isMissileInPlay && Missile.counter > 0)
+                {
                     nonRailColliderList.add(paddle.shootMissile(Missile.angle));
                     Missile.isMissileInPlay = true;
                     Missile.counter--;
                 }
-
                 paddle.toggleFireMissile();
-                break;
             default:
                 break;
         }
     }//GEN-LAST:event_panelKeyPressed
 
     private void panelKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_panelKeyReleased
-        switch(evt.getKeyCode()) {
+        switch (evt.getKeyCode())
+        {
             case 37:
                 paddle.setTravellingLeft(false);
                 break;

@@ -25,7 +25,7 @@ public class RailColliderList {
     public boolean isEmpty() {
         return size == 0;
     }
-
+    
     /**
      * Will run through all colliders, and if any collided with the passed PFigure,
      * will return any new objects created by the collision (such as a new ball).
