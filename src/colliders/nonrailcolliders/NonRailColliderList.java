@@ -20,6 +20,9 @@ public class NonRailColliderList extends ColliderList
         return (NonRailCollider) super.get(i);
     }
 
+    /**
+     Hides all the nonRailColliders in the List.
+    */
     public void hide()
     {
         for (int i = 0; i < super.getSize(); i ++)
