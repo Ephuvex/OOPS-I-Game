@@ -1,6 +1,7 @@
 package src.colliders.nonrailcolliders;
 
 import src.colliders.ColliderList;
+import src.colliders.railcolliders.Rail;
 
 /**
  A list class for NonRailColliders. This class simply extends ColliderList, but with a different get function to return

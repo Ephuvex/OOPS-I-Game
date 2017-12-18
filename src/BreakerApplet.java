@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package src;
+//package src;
 
 import src.colliders.nonrailcolliders.Ball;
 import src.colliders.nonrailcolliders.Missile;
@@ -72,8 +72,6 @@ public class BreakerApplet extends java.applet.Applet implements java.awt.event.
         panel.setSize(WIDTH, HEIGHT);
         railColliderList = new RailColliderList();
         nonRailColliderList = new NonRailColliderList();
-
-        Random rand = new Random();
         startGame();
     }
 
@@ -84,8 +82,6 @@ public class BreakerApplet extends java.applet.Applet implements java.awt.event.
         paddle.move();
         paddle.draw();
         gameOver();
-
-
         for (int i = 0; i < nonRailColliderList.getSize(); i++)
         {
             NonRailCollider nonRailCollider = nonRailColliderList.get(i);
@@ -121,7 +117,7 @@ public class BreakerApplet extends java.applet.Applet implements java.awt.event.
 
     private void gameOver()
     {
-        if (railColliderList.bricksLeft())
+        if (railColliderList.noBricksLeft())
         {
             PopUp.infoBox("Congratulations", "Game Over!");
             startGame();
@@ -145,9 +141,6 @@ public class BreakerApplet extends java.applet.Applet implements java.awt.event.
 
     private void startGame()
     {
-        paddle.hide();
-        railColliderList.hide();
-        nonRailColliderList.hide();
         railColliderList = new RailColliderList();
         nonRailColliderList = new NonRailColliderList();
         Random rand = new Random();
@@ -157,7 +150,6 @@ public class BreakerApplet extends java.applet.Applet implements java.awt.event.
             {
                 Brick brick;
                 int num = rand.nextInt();
-
                 switch (num % 15)
                 {
                     case 0:
@@ -170,11 +162,9 @@ public class BreakerApplet extends java.applet.Applet implements java.awt.event.
                         brick = new Brick(i * 50, j * 40, 50, 20, panel);
                         break;
                 }
-
                 railColliderList.add(brick);
             }
         }
-
         nonRailColliderList.add(new Ball((WIDTH - 10) / 2, HEIGHT - 75, 2, -2, panel));
         paddle = new Paddle((WIDTH - 100) / 2, HEIGHT - 50, 100, 20, panel);
     }
