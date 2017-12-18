@@ -18,6 +18,7 @@ import src.colliders.railcolliders.bricks.MissileBrick;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.Random;
+import src.colliders.railcolliders.Rail;
 
 /**
  * @author Quinn, Andrew
