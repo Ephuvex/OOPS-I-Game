@@ -11,7 +11,7 @@ public class PFigureList
 {
 
    private final int MAX_SIZE = 100;
-   public PFigure list[] = new PFigure[MAX_SIZE];
+   private PFigure list[] = new PFigure[MAX_SIZE];
    private int numFigs = 0;
 
    public int getSize()

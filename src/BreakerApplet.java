@@ -1,10 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-//package src;
-
 import src.colliders.nonrailcolliders.Ball;
 import src.colliders.nonrailcolliders.Missile;
 import src.colliders.nonrailcolliders.NonRailCollider;
@@ -15,33 +8,42 @@ import src.colliders.railcolliders.bricks.Brick;
 import src.colliders.railcolliders.bricks.DuplicateBrick;
 import src.colliders.railcolliders.bricks.MissileBrick;
 
+import javax.swing.JOptionPane;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.Random;
 import src.colliders.railcolliders.Rail;
 
 /**
- * @author Quinn, Andrew
+ This class is the backbone to the BrickBreaker Game. This class is the big 
+ picture which handles everything graphically and manipulating the methods
+ within the other files to create a usable GUI.
+ @author Quinn, Andrew
  */
-public class BreakerApplet extends java.applet.Applet implements java.awt.event.ActionListener
+public class BreakerApplet extends java.applet.Applet implements
+        java.awt.event.ActionListener
 {
 
     private static final int HEIGHT = 700;
     private static final int WIDTH = 500;
-    private javax.swing.Timer moveTimer = new javax.swing.Timer(16, this);
+    private final javax.swing.Timer moveTimer = new javax.swing.Timer(16, this);
     private RailColliderList railColliderList;
     private NonRailColliderList nonRailColliderList;
     private Paddle paddle;
     // Variables declaration - do not modify                     
     private java.awt.Panel panel;
 
+    /**
+     Called to initialize the applet. This is the main method in BreakerApplet
+     This method will call methods to set the state, and prep the game for a
+     user.
+     */
     @Override
     public void init()
     {
         Window window = (Window) this.getParent().getParent();
         window.setSize(WIDTH, HEIGHT + 100);
-        window.setLocationRelativeTo(null);
-
+        window.setLocation(710, 140);
         try
         {
             //Lambda for efficiency
@@ -60,6 +62,12 @@ public class BreakerApplet extends java.applet.Applet implements java.awt.event.
         setLayout(new BorderLayout());
     }
 
+    /**
+     Called by the applet, paint uses the passed graphics to pain the panel and
+     window.
+
+     @param g the graphics which will render the panel and window.
+     */
     @Override
     public void paint(Graphics g)
     {
@@ -67,6 +75,10 @@ public class BreakerApplet extends java.applet.Applet implements java.awt.event.
         panel.paint(g);
     }
 
+    /**
+     setStage modifies the panel size to accomodate the bricklist, then creates
+     new lists, and finally starts the game.
+    */
     private void setStage()
     {
         panel.setSize(WIDTH, HEIGHT);
@@ -75,72 +87,89 @@ public class BreakerApplet extends java.applet.Applet implements java.awt.event.
         startGame();
     }
 
+    /**
+     ActionPerformed hides, moves, and draws: the paddle, nonRailColliderList,
+     railColliderList. It creates a new panel and draws the latter on top.
+
+     @param ae Running event while the game is playing.
+     */
     @Override
     public void actionPerformed(ActionEvent ae)
     {
         paddle.hide();
         paddle.move();
         paddle.draw();
-        gameOver();
         for (int i = 0; i < nonRailColliderList.getSize(); i++)
         {
             NonRailCollider nonRailCollider = nonRailColliderList.get(i);
-
             nonRailCollider.hide();
             nonRailCollider.move();
             nonRailCollider.draw();
-
             nonRailColliderList.add(railColliderList.collisionCheck(nonRailCollider));
             paddle.collisionCheck(nonRailCollider);
-
             if (nonRailCollider.isOutOfBounds())
                 nonRailCollider.tellToDie();
-
             if (nonRailCollider.getShouldDie())
             {
                 nonRailCollider.kill();
                 nonRailColliderList.delete(nonRailCollider);
             }
         }
-
         railColliderList.draw();
-
         Graphics g = panel.getGraphics();
-
         g.setColor(panel.getBackground());
         g.fillRect(0, 0, 40, 20);
-
         g.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 20));
         g.setColor(new Color(0, 0, 0));
         g.drawString(String.valueOf(Missile.counter), 10, 20);
+        gameOver();
     }
 
+    /**
+     Game Over checks if there is any bricks left and shows a popup if it is
+     empty, then handles restarting the game. It also checks if the last ball
+     hits the bottom of the screen which causes a user to lose. If it is the
+     last ball it shows a popup then restarts.
+     */
     private void gameOver()
     {
-        if (railColliderList.noBricksLeft())
+        Rail death = new Rail(0, 700, 500, 1);
+        if (railColliderList.isEmpty())
         {
-            PopUp.infoBox("Congratulations", "Game Over!");
+            JOptionPane.showMessageDialog(null, "Congratulations", "Game Over",
+                    JOptionPane.INFORMATION_MESSAGE);
+            paddle.hide();
+            nonRailColliderList.hide();
             startGame();
         }
         for (int i = 0; i < nonRailColliderList.getSize(); i++)
         {
-            PFigure pFigure = nonRailColliderList.get(i);
-            if (new Rail(0, 700, 500, 1).collidedWith(pFigure))
+            NonRailCollider collider = nonRailColliderList.get(i);
+            if (death.collidedWith(collider))
             {
                 if (nonRailColliderList.getSize() > 1) //Since paddle is in nonRailColliders i think
                 {
-                    pFigure.hide();
-                    nonRailColliderList.delete(pFigure);
+                    collider.hide();
+                    nonRailColliderList.delete(collider);
                     return;
                 }
-                PopUp.infoBox("Git Gud!", "Game Over");
+                JOptionPane.showMessageDialog(null, "Git Gud", "Game Over",
+                        JOptionPane.INFORMATION_MESSAGE);
+                paddle.hide();
+                nonRailColliderList.hide();
                 startGame();
             }
         }
     }
 
+    /**
+     StartGame takes care of the generation of bricks, the randomization of
+     missile and duplicate bricks, and creates a new ball and paddle. Adding the
+     ball in turn starts the movement and allows the user to play.
+     */
     private void startGame()
     {
+        this.getParent().getParent().setSize(WIDTH, HEIGHT + 100);
         railColliderList = new RailColliderList();
         nonRailColliderList = new NonRailColliderList();
         Random rand = new Random();
@@ -170,9 +199,9 @@ public class BreakerApplet extends java.applet.Applet implements java.awt.event.
     }
 
     /**
-     * This method is called from within the init() method to initialize the
-     * form. WARNING: Do NOT modify this code. The content of this method is
-     * always regenerated by the Form Editor.
+     This method is called from within the init() method to initialize the form.
+     WARNING: Do NOT modify this code. The content of this method is always
+     regenerated by the Form Editor.
      */
    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
    private void initComponents()
@@ -199,7 +228,14 @@ public class BreakerApplet extends java.applet.Applet implements java.awt.event.
       add(panel);
       panel.setBounds(0, 0, 800, 500);
    }// </editor-fold>//GEN-END:initComponents
+   /**
+     keyPressed handles modifying the playing field. When either up or down are
+     pressed the speed is modified. If left or right are pressed the paddle
+     moves. When C and V are pressed the missle launch angle is changed and
+     drawn. The spacebar launches the missles in the missle angle.
 
+     @param evt the keyEvent which is pressed
+     */
     private void panelKeyPressed(java.awt.event.KeyEvent evt)
    {//GEN-FIRST:event_panelKeyPressed
        switch (evt.getKeyCode())
@@ -207,11 +243,9 @@ public class BreakerApplet extends java.applet.Applet implements java.awt.event.
            case 38:
                moveTimer.setDelay(moveTimer.getDelay() - 1);
                break;
-
            case 40:
                moveTimer.setDelay(moveTimer.getDelay() + 1);
                break;
-
            case 37:
                paddle.setTravellingLeft(true);
                break;
@@ -221,19 +255,15 @@ public class BreakerApplet extends java.applet.Applet implements java.awt.event.
            case 67:
                paddle.hide();
                Missile.angle -= 10;
-
                if (Missile.angle < 45)
                    Missile.angle = 45;
                paddle.draw();
                break;
            case 86:
                paddle.hide();
-
                Missile.angle += 10;
-
                if (Missile.angle > 135)
                    Missile.angle = 135;
-
                paddle.draw();
                break;
            case 32:
@@ -243,14 +273,17 @@ public class BreakerApplet extends java.applet.Applet implements java.awt.event.
                    Missile.isMissileInPlay = true;
                    Missile.counter--;
                }
-
                paddle.toggleFireMissile();
-               break;
            default:
                break;
        }
    }//GEN-LAST:event_panelKeyPressed
 
+    /**
+     To handle moving swiftly when the left or right arrow keys are released 
+     the paddle will stop.
+     @param evt the keyEvent which is released
+     */
     private void panelKeyReleased(java.awt.event.KeyEvent evt)
    {//GEN-FIRST:event_panelKeyReleased
        switch (evt.getKeyCode())

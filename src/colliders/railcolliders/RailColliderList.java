@@ -91,11 +91,6 @@ public class RailColliderList
             colliders[i].draw();
     }
 
-    public boolean noBricksLeft()
-    {
-        return size == 0;
-    }
-
     public void hide()
     {
         for (int i = 0; i < size; i++)

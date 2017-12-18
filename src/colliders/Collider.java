@@ -5,8 +5,9 @@ import src.PFigure;
 import java.awt.*;
 
 /**
- This class represents PFigures which can move, or collide with other PFigures. The instances track whether they should
- be removed from the stage internally. This class mostly exists as to not override PFigure.
+ This class represents PFigures which can move, or collide with other PFigures. 
+ The instances track whether they should be removed from the stage internally. 
+ This class mostly exists as to not override PFigure.
  @author andrewkaiser */
 public abstract class Collider extends PFigure
 {
@@ -37,7 +38,8 @@ public abstract class Collider extends PFigure
    }
 
    /**
-    A getter method for shouldDie, which is used to track if the object should be removed from the stage.
+    A getter method for shouldDie, which is used to track if the object 
+    should be removed from the stage.
     @return shouldDie
     */
    public boolean getShouldDie()
@@ -46,8 +48,9 @@ public abstract class Collider extends PFigure
    }
 
    /**
-    A setter method for shouldDie. This method doesn't take a parameter, since colliders always start with shouldDie
-    as false and should never have shouldDie change from true to false, only false to true.
+    A setter method for shouldDie. This method doesn't take a parameter, 
+    since colliders always start with shouldDie as false and should never have 
+    shouldDie change from true to false, only false to true.
     */
    public void tellToDie()
    {
