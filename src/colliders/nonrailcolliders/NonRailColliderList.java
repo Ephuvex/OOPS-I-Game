@@ -18,4 +18,10 @@ public class NonRailColliderList extends ColliderList
     {
         return (NonRailCollider) super.get(i);
     }
+
+    public void hide()
+    {
+        for (int i = 0; i < super.getSize(); i ++)
+            super.get(i).hide();
+    }
 }
