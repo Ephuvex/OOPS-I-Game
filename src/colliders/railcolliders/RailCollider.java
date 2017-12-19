@@ -9,7 +9,8 @@ import java.awt.*;
 /**
  This class is an abstract class for any collider which use rails to check individual sides for collisions with
  PFigures. Such classes include Paddle and Brick.
- @author andrewkaiser */
+ @author andrewkaiser 
+ */
 public abstract class RailCollider extends Collider
 {
     /**

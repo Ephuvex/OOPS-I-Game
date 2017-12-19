@@ -1,10 +1,5 @@
 package src.colliders.railcolliders;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 import src.PFigure;
 import src.colliders.nonrailcolliders.Ball;
@@ -14,7 +9,11 @@ import src.colliders.nonrailcolliders.NonRailCollider;
 import java.awt.*;
 
 /**
- @author dericksonb */
+ This class handles the construction, movement and collision of the paddle in 
+ the game. It also handles the firing of the missile, creates a shooting arrow 
+ in the direction the player wants to fire the missile. 
+ @author dericksonb 
+ */
 public class Paddle extends RailCollider
 {
 
@@ -25,6 +24,15 @@ public class Paddle extends RailCollider
     private boolean travellingLeft = false;
     private boolean travellingRight = false;
 
+    /**
+     THis is the constructor of the paddle. It takes in the starting position
+     of the paddle, height and width and the panel itself. 
+     @param startX The Starting X position of the paddle
+     @param startY The Starting Y position of the paddle
+     @param _width The width of the paddle
+     @param _height The height of the paddle
+     @param p the panel of the BreakerApplet
+     */
     public Paddle( int startX, int startY, int _width, int _height, Panel p )
     {
         super(startX, startY, _width, _height, 0, p);
@@ -36,6 +44,13 @@ public class Paddle extends RailCollider
         throw new UnsupportedOperationException();
     }
 
+    /**
+    This method overrides the draw function of the parent class. Its grabs the
+    graphics and then sets the color, size and position of the paddle. If the
+    player has hit the space button, to indicate that the player wants to fire a
+    missile then the paddle will also draw a line that is pointed in the 
+    direction that the ball will fire. 
+     */
     @Override
     public void draw()
     {
@@ -56,16 +71,32 @@ public class Paddle extends RailCollider
 
     }
 
+    /**
+    This method checks if the paddle is traveling left and if it is then it sets
+    the boolean to what ever the bool that was brought in. 
+    @param bool the true or false brought in.
+     */
     public void setTravellingLeft( boolean bool )
     {
         travellingLeft = bool;
     }
 
+    /**
+    This method checks if the paddle is traveling right and if it is then it 
+    sets the boolean to what ever the bool that was brought in.
+    @param bool the true or false brought in.
+     */
     public void setTravellingRight( boolean bool )
     {
         travellingRight = bool;
     }
 
+    /**
+    This method overrides the move function of the parent class. This method 
+    checks the movement of the paddle and if it is just a single button press
+    then it will only move a single increment. If the button was held down then
+    then the paddle will move at an increasingly rate. 
+     */
     @Override
     public void move()
     {
@@ -77,9 +108,7 @@ public class Paddle extends RailCollider
         {
             xAccel = 2;
         }
-
         xVel += xAccel;
-
         if ( xVel > 0 )
         {
             xVel = Math.min(15, xVel);
@@ -88,9 +117,7 @@ public class Paddle extends RailCollider
         {
             xVel = Math.max(-15, xVel);
         }
-
         x += xVel;
-
         if ( x < -width / 2 )
         {
             x = panel.getSize().width - width / 2;
@@ -99,7 +126,6 @@ public class Paddle extends RailCollider
         {
             x = -width / 2;
         }
-
         if ( xVel > 0 )
         {
             xVel--;
@@ -108,7 +134,6 @@ public class Paddle extends RailCollider
         {
             xVel++;
         }
-
         if ( xAccel > 0 )
         {
             xAccel--;
@@ -119,11 +144,21 @@ public class Paddle extends RailCollider
         }
     }
 
+    /**
+    This method causes the paddle to accelerate if the button was held down
+     @param acceleration the rate at which the acceleration was determined. 
+     */
     public void accel( int acceleration )
     {
         xAccel += acceleration;
     }
 
+    /**
+    This method checks if the ball bounces with the top of the paddle. If it 
+    did it then return where it hit the paddle. 
+     @param ball the ball that bounces off the paddle
+     @return the position where the ball bounces off of
+     */
     public boolean bounceWasX( Ball ball )
     {
         Rail topRail = new Rail(x + 2, y, width - 4, 1);
@@ -132,6 +167,12 @@ public class Paddle extends RailCollider
         return ball.collidedWith(topRail) || ball.collidedWith(bottomRail);
     }
 
+    /**
+    This method checks if the ball bounces with the sides of the paddle. If it 
+    did it then return where it hit the paddle. 
+    @param ball the ball that bounces off the paddle
+    @return the position where the ball bounces off of
+     */
     public boolean bounceWasY( Ball ball )
     {
         Rail leftRail = new Rail(x, y + 2, 1, height - 4);
@@ -140,21 +181,36 @@ public class Paddle extends RailCollider
         return ball.collidedWith(leftRail) || ball.collidedWith(rightRail);
     }
 
+    /**
+     *
+     @param collider
+     */
     public void collisionCheck( NonRailCollider collider )
     {
         collider.didCollideWith(this);
     }
 
+    /**
+     This method literally just reverses the the state of firing a missile. 
+     */
     public void toggleFireMissile()
     {
         firingMissile = !firingMissile;
     }
 
+    /**
+    This method get if firing a missile was called. 
+    @return the state of firingMissile
+     */
     public boolean getFiringmissile()
     {
         return firingMissile;
     }
 
+    /**
+    THis method overrides the hide function of the parent class. This hides the
+    paddle so the form can move it for rendering and new game creation. 
+     */
     @Override
     public void hide()
     {
@@ -168,6 +224,14 @@ public class Paddle extends RailCollider
 
     }
 
+    /**
+    This method tells where and what angle to fire the missile at. It brings in 
+    the angle in which the player has chosen to fire the missile and sets the 
+    path of the missile to that. It then creates a new missile with a path and a 
+    velocity. 
+     @param angle which the player has chosen to fire the missile at. 
+     @return the new missile created. 
+     */
     public Missile shootMissile( int angle )
     {
         int xVel = (int) -(5 * Math.sin(Math.toRadians(angle + 90)));

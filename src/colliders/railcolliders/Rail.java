@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package src.colliders.railcolliders;
 
 import src.PFigure;
@@ -11,7 +7,8 @@ import src.PFigure;
  This class is simply a PFigure which should never be drawn, and is used for collision detection. Rails whose location
  and dimension match the border pixels of RailColliders are created, and used for checking collisions with objects on
  individual sides. RAILS SHOULD NOT BE DRAWN!
- @author andrewkaiser */
+ @author andrewkaiser 
+ */
 public class Rail extends PFigure
 {
    @SuppressWarnings("WeakerAccess")

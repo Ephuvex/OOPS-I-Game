@@ -4,12 +4,13 @@ import src.PFigure;
 import src.colliders.nonrailcolliders.NonRailCollider;
 
 /**
- A list class for rail colliders. Supports adding and removing RailColliders
- from the list, but more importantly allows for NonRailColliders to be checked
- against the entire list for collisions, wherein collisions are appropriately
- handled. This class also allows for the drawing of all contained items at once.
-
- @author andrewkaiser
+ * A list class for rail colliders. Supports adding and removing RailColliders
+ * from the list, but more importantly allows for NonRailColliders to be checked
+ * against the entire list for collisions, wherein collisions are appropriately
+ * handled. This class also allows for the drawing of all contained items at
+ * once.
+ *
+ * @author andrewkaiser
  */
 public class RailColliderList
 {
@@ -19,9 +20,9 @@ public class RailColliderList
     private RailCollider[] colliders = new RailCollider[SIZE];
 
     /**
-     Adds a RailCollider to the list, and increments the size.
-
-     @param collider the collider to be added to the list
+     * Adds a RailCollider to the list, and increments the size.
+     *
+     * @param collider the collider to be added to the list
      */
     public void add(RailCollider collider)
     {
@@ -29,9 +30,9 @@ public class RailColliderList
     }
 
     /**
-     Removes a RailCollider from the list, and decrements the size.
-
-     @param collider the collider to be removed
+     * Removes a RailCollider from the list, and decrements the size.
+     *
+     * @param collider the collider to be removed
      */
     @SuppressWarnings("WeakerAccess")
     public void remove(RailCollider collider)
@@ -47,9 +48,9 @@ public class RailColliderList
     }
 
     /**
-     Checks to see if the list is empty.
-
-     @return true if the list is empty, false otherwise.
+     * Checks to see if the list is empty.
+     *
+     * @return true if the list is empty, false otherwise.
      */
     public boolean isEmpty()
     {
@@ -57,20 +58,20 @@ public class RailColliderList
     }
 
     /**
-     Will run through all contained colliders, and if any collided with the
-     passed NonRailCollider, will return any new objects created by the
-     collision (such as a new ball). If no collision took place or if nothing
-     was created from the collision, will return null.
-
-     @param nonRailCollider the figure to check for collision with
-     @return a new PFigure if applicable, null otherwise
+     * Will run through all contained colliders, and if any collided with the
+     * passed NonRailCollider, will return any new objects created by the
+     * collision (such as a new ball). If no collision took place or if nothing
+     * was created from the collision, will return null.
+     *
+     * @param nonRailCollider the figure to check for collision with
+     * @return a new PFigure if applicable, null otherwise
      */
     public PFigure collisionCheck(NonRailCollider nonRailCollider)
     {
         for (int i = 0; i < size; i++)
         {
             RailCollider railCollider = colliders[i];
-            if (nonRailCollider.collidedWith(railCollider))
+            if ( nonRailCollider.collidedWith(railCollider) )
             {
                 remove(railCollider);
                 railCollider.hide();
@@ -82,17 +83,14 @@ public class RailColliderList
     }
 
     /**
-     Draws all contained colliders sequentially.
+     * Draws all contained colliders sequentially.
      */
     public void draw()
     {
         for (int i = 0; i < size; i++)
             colliders[i].draw();
     }
-    
-    /**
-     Hides all the RailColliders in colliders.
-    */
+
     public void hide()
     {
         for (int i = 0; i < size; i++)
