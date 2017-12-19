@@ -1,34 +1,31 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package src;
 
 /**
- @author Quinn */
+ @author Quinn
+ */
 public class PFigureList
 {
 
    private final int MAX_SIZE = 100;
-   private PFigure items[] = new PFigure[MAX_SIZE];
-   private int size = 0;
+   private PFigure list[] = new PFigure[MAX_SIZE];
+   private int numFigs = 0;
 
    public int getSize()
    {
-      return size;
+      return numFigs;
    }
 
    public PFigure get( int i )
    {
-      return items[i];
+      return list[i];
    }
 
    private int find( PFigure fig )
    {
-      for ( int i = size - 1; i > -1; i-- )
+      for ( int i = numFigs - 1; i > -1; i-- )
       {
-         if ( items[i].equals(fig) )
+         if ( list[i].equals(fig) )
          {
             return i;
          }
@@ -39,14 +36,14 @@ public class PFigureList
    public boolean delete( PFigure fig )
    {
       int index = find(fig);
-      if ( index > -1 )
+      if (index > -1) 
       {
-         for ( int i = index; i < getSize() - 2; i++ )
-         {
-            items[i] = items[i + 1];
-         }
-         size--;
-         return true;
+        for (int i = index; i < numFigs - 2; i++) 
+        {
+            list[i] = list[i + 1];
+        }
+        numFigs--;
+        return true;
       }
       return false;
    }
@@ -57,9 +54,9 @@ public class PFigureList
       {
          return;
       }
-      if ( size < this.MAX_SIZE )
+      if ( numFigs < this.MAX_SIZE )
       {
-         items[size++] = fig;
+         list[numFigs++] = fig;
       }
    }
 }
