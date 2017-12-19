@@ -25,7 +25,7 @@ public class NonRailColliderList extends ColliderList
     */
     public void hide()
     {
-        for (int i = 0; i < super.getSize(); i ++)
-            super.get(i).hide();
+        for ( int i = 0; i < getSize(); i++ )
+            get(i).hide();
     }
 }

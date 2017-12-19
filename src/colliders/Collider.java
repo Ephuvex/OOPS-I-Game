@@ -8,7 +8,8 @@ import java.awt.*;
  This class represents PFigures which can move, or collide with other PFigures. 
  The instances track whether they should be removed from the stage internally. 
  This class mostly exists as to not override PFigure.
- @author andrewkaiser */
+ @author andrewkaiser
+ */
 public abstract class Collider extends PFigure
 {
    protected int xVel = 0, yVel = 0;
